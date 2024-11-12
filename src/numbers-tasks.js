@@ -408,8 +408,8 @@ function toExponential(number, fractionDigits) {
  * 12345, 2    => '12345.00'
  * 12.345, 1   => '12.3'
  */
-function toFixed(/* number, fractionDigits */) {
-  throw new Error('Not implemented');
+function toFixed(number, fractionDigits) {
+  return number.toFixed(fractionDigits).toString();
 }
 
 /**
@@ -424,8 +424,11 @@ function toFixed(/* number, fractionDigits */) {
  * 12345, 7    => '12345.00'
  * 12.345, 4   => '12.35'
  */
-function toPrecision(/* number, precision */) {
-  throw new Error('Not implemented');
+function toPrecision(number, precision) {
+  if (precision < 1) {
+    throw new Error('Precision must be at least 1');
+  }
+  return number.toPrecision(precision);
 }
 
 /**
@@ -438,8 +441,11 @@ function toPrecision(/* number, precision */) {
  * new Number(5) => 5
  * Number(-5)    => -5
  */
-function getNumberValue(/* number */) {
-  throw new Error('Not implemented');
+function getNumberValue(number) {
+  if (number instanceof Number) {
+    return number.valueOf();
+  }
+  return number;
 }
 
 /**
@@ -457,8 +463,12 @@ function getNumberValue(/* number */) {
  * 5        => true
  * '5'      => false
  */
-function isNumber(/* number */) {
-  throw new Error('Not implemented');
+function isNumber(number) {
+  return (
+    typeof number === 'number' &&
+    !Number.isNaN(number) &&
+    Number.isFinite(number)
+  );
 }
 
 /**
