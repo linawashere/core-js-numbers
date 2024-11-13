@@ -516,7 +516,8 @@ function getFloatOnString(str) {
  * '10', 8              => 8
  */
 function getIntegerOnString(str, base) {
-  return Number.isNaN(str) ? NaN : str.getIntegerPartNumber(base);
+  const parsed = parseInt(str, base);
+  return Number.isNaN(parsed) ? NaN : Math.floor(parsed);
 }
 
 /**
@@ -589,7 +590,7 @@ function roundToNearestInteger(number) {
  * -5.5 => -5
  */
 function getIntegerPartNumber(number) {
-  return number.getIntegerPartNumber();
+  return Math.trunc(number);
 }
 
 /**
@@ -605,8 +606,8 @@ function getIntegerPartNumber(number) {
  * 0.1, 0.2, 0.3 => 0.6
  */
 function getSumOfNumbers(x1, x2, x3) {
-  const arr = [x1, x2, x3];
-  return Math.sum(arr);
+  const sum = x1 * 10 + x2 * 10 + x3 * 10;
+  return sum / 10;
 }
 
 /**
@@ -652,7 +653,14 @@ function getRandomInteger(min, max) {
  * 3, 4 => 5
  */
 function getHypotenuse(a, b) {
-  return Math.sqrt(a, 2) + Math.sqrt(b, 2);
+  if (typeof a !== 'number' || typeof b !== 'number' || a < 0 || b < 0) {
+    throw new Error('Both arguments must be positive numbers');
+  }
+  const sumOfSquares = a * a + b * b;
+  if (sumOfSquares > Number.MAX_SAFE_INTEGER) {
+    return Infinity;
+  }
+  return Math.sqrt(sumOfSquares);
 }
 
 /**
