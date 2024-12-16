@@ -497,8 +497,8 @@ function isInteger(number) {
  * 'abcdefgh'      => NaN
  */
 function getFloatOnString(str) {
-  const result = parseFloat(str);
-  return Number.isNaN(result) ? NaN : result;
+  const result = Number.parseFloat(str);
+  return Object.is(result, NaN) ? NaN : result;
 }
 
 /**
@@ -653,14 +653,18 @@ function getRandomInteger(min, max) {
  * 3, 4 => 5
  */
 function getHypotenuse(a, b) {
-  if (typeof a !== 'number' || typeof b !== 'number' || a < 0 || b < 0) {
-    throw new Error('Both arguments must be positive numbers');
+  if (typeof a !== 'number' || typeof b !== 'number') {
+    throw new Error('Both arguments must be numbers.');
   }
-  const sumOfSquares = a * a + b * b;
-  if (sumOfSquares > Number.MAX_SAFE_INTEGER) {
-    return Infinity;
+  const aSquared = a ** 2;
+  const bSquared = b ** 2;
+  if (
+    aSquared < Number.MAX_SAFE_INTEGER &&
+    bSquared < Number.MAX_SAFE_INTEGER
+  ) {
+    return Math.sqrt(aSquared + bSquared);
   }
-  return Math.sqrt(sumOfSquares);
+  return Math.sqrt(a + b);
 }
 
 /**
@@ -678,7 +682,7 @@ function getHypotenuse(a, b) {
  */
 function getCountOfOddNumbers(number) {
   if (number < 0) {
-    throw new Error('The number must be greater than 0');
+    return 0;
   }
   if (number === 0) {
     return 0;
