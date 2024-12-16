@@ -656,15 +656,7 @@ function getHypotenuse(a, b) {
   if (typeof a !== 'number' || typeof b !== 'number') {
     throw new Error('Both arguments must be numbers.');
   }
-  const aSquared = a ** 2;
-  const bSquared = b ** 2;
-  if (
-    aSquared < Number.MAX_SAFE_INTEGER &&
-    bSquared < Number.MAX_SAFE_INTEGER
-  ) {
-    return Math.sqrt(aSquared + bSquared);
-  }
-  return Math.sqrt(a + b);
+  return Math.hypot(a, b);
 }
 
 /**
